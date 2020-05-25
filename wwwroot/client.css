@@ -109,7 +109,7 @@ p {
     grid-area: hour;
     background-color: #dce8ff;
     display: grid;
-    grid-template-rows: repeat(25, 45px);
+    grid-template-rows: repeat(25, auto);
     grid-gap: 10px;
     padding-right: 5px;
     padding-left: 5px;
@@ -121,7 +121,7 @@ p {
     grid-area: day1;
     background-color: #dce8ff;
     display: grid;
-    grid-template-rows: repeat(25, 45px);
+    grid-template-rows: repeat(25, auto);
     grid-gap: 10px;
     padding-right: 5px;
     padding-left: 5px;
@@ -133,7 +133,7 @@ p {
     grid-area: day2;
     background-color: #dce8ff;
     display: grid;
-    grid-template-rows: repeat(25, 45px);
+    grid-template-rows: repeat(25, auto);
     grid-gap: 10px;
     padding-right: 5px;
     padding-left: 5px;
@@ -145,7 +145,7 @@ p {
     grid-area: day3;
     background-color: #dce8ff;
     display: grid;
-    grid-template-rows: repeat(25, 45px);
+    grid-template-rows: repeat(25, auto);
     grid-gap: 10px;
     padding-right: 5px;
     padding-left: 5px;
@@ -157,7 +157,7 @@ p {
     grid-area: day4;
     background-color: #dce8ff;
     display: grid;
-    grid-template-rows: repeat(25, 45px);
+    grid-template-rows: repeat(25, auto);
     grid-gap: 10px;
     padding-right: 5px;
     padding-left: 5px;
@@ -169,7 +169,7 @@ p {
     grid-area: day5;
     background-color: #dce8ff;
     display: grid;
-    grid-template-rows: repeat(25, 45px);
+    grid-template-rows: repeat(25, auto);
     grid-gap: 10px;
     padding-right: 5px;
     padding-left: 5px;
@@ -181,7 +181,7 @@ p {
     grid-area: day6;
     background-color: #dce8ff;
     display: grid;
-    grid-template-rows: repeat(25, 45px);
+    grid-template-rows: repeat(25, auto);
     grid-gap: 10px;
     padding-right: 5px;
     padding-left: 5px;
@@ -193,7 +193,7 @@ p {
     grid-area: day7;
     background-color: #dce8ff;
     display: grid;
-    grid-template-rows: repeat(25, 45px);
+    grid-template-rows: repeat(25, auto);
     grid-gap: 10px;
     padding-right: 5px;
     padding-left: 5px;

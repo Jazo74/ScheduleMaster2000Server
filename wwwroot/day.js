@@ -70,8 +70,9 @@ function ShowSlots() {
             if (currentSlotsJSON[c][b].slotNumber == b) {
                 const slotEl = document.createElement("div");
                 slotEl.className = 'hourSlot';
-                //slotEl.id = currentSlotsJSON[c][b].slotId;
+                slotEl.id = `slot_${currentSlotsJSON[c][b].slotId}`;
                 const slotText = document.createElement("p");
+                slotText.id = 'slot-p';
                 slotText.innerText = currentSlotsJSON[c][b].taskId;
                 slotEl.appendChild(slotText);
                 const dayId = currentSlotsJSON[c][b].dayId;
@@ -82,14 +83,53 @@ function ShowSlots() {
                     }
                 }
                 const targetDayDivEL = document.querySelector(`.day${dayNumber}`);
+                slotText.addEventListener('click', slotClick);
                 targetDayDivEL.appendChild(slotEl);
-                const slotExtendEl = document.createElement("div");
-                slotExtendEl.id = `ext${currentSlotsJSON[c][b].slotId}`
+                
             }
         }
     }
 }
 
 function createDaysDone() {
+}
 
+function slotClick() {
+    const extendedSlot = document.querySelector(`.extended-slot`);
+    if (!extendedSlot) {
+        const slotEl = document.querySelector(`#${this.id}`).parentNode;
+        const parentId = slotEl.id;
+        slotEl.style.height = '130px';
+        const taskListEl = document.createElement("input");
+        taskListEl.className = "extended-slot";
+        taskListEl.type = "text";
+        taskListEl.setAttribute("list", "task-list");
+        const dataTaskListEl = document.createElement("datalist");
+        dataTaskListEl.id = "task-list"
+        for (m = 0; m < currentTasks.length; m++) {
+            const newOptionEl = document.createElement('option');
+            newOptionEl.value = currentTasks[m].taskTitle;
+            dataTaskListEl.appendChild(newOptionEl);
+        }
+        taskListEl.appendChild(dataTaskListEl);
+        const chooseTaskButtonEl = document.createElement('button');
+        chooseTaskButtonEl.className = 'extended-button button';
+        chooseTaskButtonEl.innerText = 'Choose task';
+        chooseTaskButtonEl.addEventListener('click', chooseTask.bind(null,parentId));
+        slotEl.appendChild(taskListEl);
+        slotEl.appendChild(chooseTaskButtonEl);
+    }
+}
+
+function slotLeft(slotId) {
+    const extendedSlot = document.querySelector('.extended-slot');
+    const extendedButton = document.querySelector('.extended-button');
+    const slotEl = document.querySelector(`#${slotId}`);
+    slotEl.style.height = '30px';
+    extendedSlot.parentNode.removeChild(extendedSlot);
+    extendedButton.parentNode.removeChild(extendedButton);
+}
+
+function chooseTask(slotId) {
+    slotLeft(slotId)
 }
