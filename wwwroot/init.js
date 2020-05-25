@@ -27,6 +27,7 @@ let currentScheduleId;
 let currentDaysIds = [];
 let currentUserID = 'nouser@nouser.net';
 let currentUserNickname = 'nouser'; 
+let currentTasks = [];
 
 function resetMainPanel() {
     currentSchedulesJSON = [];

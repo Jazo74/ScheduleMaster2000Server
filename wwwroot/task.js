@@ -4,9 +4,6 @@ const createTaskColorEl = document.querySelector('#create-taskcolor');
 const createTaskButtonEl = document.querySelector('#create-taskbutton');
 createTaskButtonEl.addEventListener('click', createTask);
 
-
-
-
 // Opening the task panel
 
 function openTasksPanel() {
@@ -34,4 +31,18 @@ function createTaskDone() {
     createTaskDescEl.value = '';
     createTaskColorEl.value = '';
     hideMiddlePanel();
+    getTasksByUser(currentUserID);
+}
+
+function getTasksByUser(userId) {
+    const xhr = new XMLHttpRequest();
+    xhr.addEventListener('load', gotTasksByUser);
+    xhr.open('GET', serverURL + '/api/Tasks/Users/' + userId);
+    xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+    xhr.withCredentials = true; // pass along cookies
+    xhr.send();
+}
+
+function gotTasksByUser() {
+    currentTasks = JSON.parse(this.responseText);
 }

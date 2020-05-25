@@ -45,7 +45,7 @@ namespace ScheduleMaster2000Server.Services
             using (var conn = new NpgsqlConnection(Program.ConnectionString))
             {
                 conn.Open();
-                using (var cmd = new NpgsqlCommand("SELECT * FROM taskss WHERE user_id = @userId", conn))
+                using (var cmd = new NpgsqlCommand("SELECT * FROM tasks WHERE user_id = @userId", conn))
                 {
                     cmd.Parameters.AddWithValue("userId", userID);
                     var reader = cmd.ExecuteReader();

@@ -70,7 +70,7 @@ function ShowSlots() {
             if (currentSlotsJSON[c][b].slotNumber == b) {
                 const slotEl = document.createElement("div");
                 slotEl.className = 'hourSlot';
-                slotEl.id = c;
+                //slotEl.id = currentSlotsJSON[c][b].slotId;
                 const slotText = document.createElement("p");
                 slotText.innerText = currentSlotsJSON[c][b].taskId;
                 slotEl.appendChild(slotText);
@@ -83,6 +83,8 @@ function ShowSlots() {
                 }
                 const targetDayDivEL = document.querySelector(`.day${dayNumber}`);
                 targetDayDivEL.appendChild(slotEl);
+                const slotExtendEl = document.createElement("div");
+                slotExtendEl.id = `ext${currentSlotsJSON[c][b].slotId}`
             }
         }
     }

@@ -34,10 +34,10 @@ function onSchedulesReceived() {
     currentSchedulesJSON = schedules;
     for (i = 0; i < schedules.length; i++) {
         const newOptionEl = document.createElement('option');
-        console.log(schedules[i].scheduleName);
         newOptionEl.value = schedules[i].scheduleName;
         dataListEl.appendChild(newOptionEl);
     }
+    getTasksByUser(currentUserID);
 }
 
 // Setting the current schedule id
@@ -143,3 +143,4 @@ function createDaysDone() {
         extendedPartEl.removeChild(extendedPartEl.firstChild);
     }
 }
+

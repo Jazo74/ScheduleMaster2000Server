@@ -29,6 +29,20 @@ namespace ScheduleMaster2000Server.Controllers
             return "value";
         }
 
+        // GET: api/Tasks/Users/5
+        [HttpGet("Users/{userId}", Name = "GetTasksByUserId")]
+        public IEnumerable<Chore> GetTasksByUser(string userId)
+        {
+            List<Chore> tasks = ds.GetAllTasksByUser(userId);
+            Chore[] taskArray = new Chore[tasks.Count];
+            for (int i = 0; i < tasks.Count; i++)
+            {
+                taskArray[i] = tasks[i];
+            }
+
+            return taskArray;
+        }
+
         // POST: api/Tasks
         [HttpPost]
         public void Post([FromForm] string userId, [FromForm] string taskTitle, [FromForm] string taskDescription, [FromForm] string taskColor)
