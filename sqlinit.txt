@@ -1,0 +1,184 @@
+﻿/* DROPPING previous tables, functions, triggers */
+DROP TABLE IF EXISTS tasks CASCADE;
+DROP TABLE IF EXISTS slots CASCADE;
+DROP TABLE IF EXISTS days CASCADE;
+DROP TABLE IF EXISTS schedules CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TRIGGER IF EXISTS slots_building ON days CASCADE;
+DROP FUNCTION IF EXISTS slots_building;
+DROP TRIGGER IF EXISTS making_empty_task ON users CASCADE;
+DROP FUNCTION IF EXISTS making_empty_task;
+DROP TRIGGER IF EXISTS deleting_days_slots ON schedules CASCADE;
+DROP FUNCTION IF EXISTS deleting_days_slots;
+
+/* CREATING new tables */
+CREATE TABLE users(
+	user_id VARCHAR(50) Primary Key,
+	nickname VARCHAR(20),
+	pw TEXT,
+	salt TEXT
+);
+
+CREATE TABLE schedules (
+	schedule_id SERIAL PRIMARY KEY,
+	schedule_name VARCHAR(30),
+	user_id VARCHAR(50) REFERENCES users(user_id)
+);
+
+CREATE TABLE days (
+	day_id SERIAL PRIMARY KEY,
+	day_name VARCHAR(30),
+	schedule_id INT REFERENCES schedules(schedule_id),
+	day_number SERIAL
+);
+
+CREATE TABLE tasks(
+	task_id SERIAL PRIMARY KEY,
+	task_title VARCHAR(30),
+	task_description TEXT,
+	user_id VARCHAR(50) REFERENCES users(user_id),
+	task_color TEXT 
+);
+
+CREATE TABLE slots (
+	slot_id SERIAL PRIMARY KEY,
+	slot_number INT,
+	day_id INT REFERENCES days(day_id),
+	task_id INT REFERENCES tasks(task_id)
+);
+/* TRIGGERED FUNCTION insert 1 "empty" task for every user */
+CREATE FUNCTION making_empty_task() RETURNS trigger AS 
+$making_empty_task$
+	DECLARE
+	BEGIN
+		INSERT INTO tasks (task_title,task_description,user_id,task_color) VALUES ('empty hour', 'empty hour', NEW.user_id ,'white');
+		RETURN NEW;
+	END;
+$making_empty_task$ LANGUAGE plpgsql;
+
+/* TRIGGER when an inster happens in the users table */
+CREATE TRIGGER making_empty_task 
+AFTER INSERT
+ON users
+FOR EACH ROW EXECUTE FUNCTION making_empty_task();
+
+
+/* TRIGGERED FUNCTION insert 24 slots to the slots table for every new days */
+CREATE FUNCTION slots_Building() RETURNS trigger AS 
+$slots_building$
+	DECLARE
+	counter INTEGER;
+	scheduleID INTEGER;
+	userID VARCHAR(50);
+	taskID INTEGER;
+	BEGIN
+		counter := 0;
+		SELECT schedule_id FROM days WHERE day_id = NEW.day_id LIMIT 1 INTO scheduleID;
+		SELECT user_id FROM schedules WHERE schedule_id = scheduleID LIMIT 1 INTO userID;
+		SELECT task_id FROM tasks WHERE user_id = userID AND task_title = 'empty hour' ORDER BY task_id LIMIT 1 INTO taskID;
+		LOOP
+			EXIT WHEN counter = 24;
+			INSERT INTO slots (slot_number, day_id, task_id) VALUES (counter, NEW.day_id, taskID);
+			counter := counter + 1;
+		END LOOP;
+		RETURN NEW;
+	END;
+$slots_building$ LANGUAGE plpgsql;
+
+/* TRIGGER when an insert happens in the days table */
+CREATE TRIGGER slots_building 
+AFTER INSERT
+ON days
+FOR EACH ROW EXECUTE FUNCTION slots_building();
+
+/* TRIGGERED FUNCTION delete days and slots before a schedule deleted */
+CREATE FUNCTION deleting_days_slots() RETURNS trigger AS 
+$deleting_days_slots$
+	DECLARE
+	BEGIN
+		DELETE FROM slots WHERE day_id 
+		IN(
+		SELECT day_id FROM days WHERE schedule_id = OLD.schedule_id
+		);
+		DELETE FROM days WHERE schedule_id = OLD.schedule_id;		
+		RETURN NEW;
+	END;
+$deleting_days_slots$ 
+LANGUAGE plpgsql;
+
+/* TRIGGER when a delete happens in the schedule table */
+CREATE TRIGGER deleting_days_slots 
+AFTER DELETE
+ON schedules
+FOR EACH ROW EXECUTE FUNCTION deleting_days_slots();
+
+
+/********************************************************************************************/
+/* INSERT SAMPLE DATA */
+INSERT INTO users (user_id, nickname,pw) VALUES ('joska@joska.com', 'joska', 'joska');
+INSERT INTO users (user_id, nickname,pw) VALUES ('pista@pista.com', 'pista', 'pista');
+INSERT INTO users (user_id, nickname,pw) VALUES ('laci@laci.com', 'laci', 'laci');
+
+INSERT INTO schedules (schedule_name, user_id) VALUES ('joska_work_week_1','joska@joska.com');
+INSERT INTO schedules (schedule_name, user_id) VALUES ('joska_home_week_1','joska@joska.com');
+INSERT INTO schedules (schedule_name, user_id) VALUES ('laci_work_week_1','laci@laci.com');
+INSERT INTO schedules (schedule_name, user_id) VALUES ('laci_home_week_1','laci@laci.com');
+INSERT INTO schedules (schedule_name, user_id) VALUES ('pista_work_week_1','pista@pista.com');
+INSERT INTO schedules (schedule_name, user_id) VALUES ('pista_home_week_1','pista@pista.com');
+
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Monday',1,1);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Tuesday',1,2);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Wednesday',1,3);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Thursday',1,4);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Friday',1,5);
+
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Monday',2,1);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Tuesday',2,2);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Wednesday',2,3);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Thursday',2,4);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Friday',2,5);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Saturday',2,6);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Sunday',2,7);
+
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Monday',3,1);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Tuesday',3,2);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Wednesday',3,3);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Thursday',3,4);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Friday',3,5);
+
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Monday',4,1);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Tuesday',4,2);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Wednesday',4,3);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Thursday',4,4);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Friday',4,5);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Saturday',4,6);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Sunday',4,7);
+
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Monday',5,1);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Tuesday',5,2);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Wednesday',5,3);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Thursday',5,4);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Friday',5,5);
+
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Monday',6,1);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Tuesday',6,2);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Wednesday',6,3);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Thursday',6,4);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Friday',6,5);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Saturday',6,6);
+INSERT INTO days (day_name, schedule_id, day_number) VALUES ('Sunday',6,7);
+
+INSERT INTO tasks (task_title, task_description, user_id, task_color) VALUES ('Lunch','Eating something','joska@joska.com','white');
+INSERT INTO tasks (task_title, task_description, user_id, task_color) VALUES ('Coding','Python practice','joska@joska.com','white');
+INSERT INTO tasks (task_title, task_description, user_id, task_color) VALUES ('Game','Playing Fruit Ninjas','joska@joska.com','white');
+INSERT INTO tasks (task_title, task_description, user_id, task_color) VALUES ('Work','Shoveling coal in the mine','joska@joska.com','white');
+
+INSERT INTO tasks (task_title, task_description, user_id, task_color) VALUES ('Breakfast','Eating toast with baked beans','pista@pista.com','white');
+INSERT INTO tasks (task_title, task_description, user_id, task_color) VALUES ('Coding','C# practice','pista@pista.com','white');
+INSERT INTO tasks (task_title, task_description, user_id, task_color) VALUES ('Game','Playing WoW','pista@pista.com','white');
+INSERT INTO tasks (task_title, task_description, user_id, task_color) VALUES ('Work','Crushing coal in the mine','pista@pista.com','white');
+
+INSERT INTO tasks (task_title, task_description, user_id, task_color) VALUES ('Dinner','Eating zsiros kenyeret lila hagymaval','laci@laci.com','white');
+INSERT INTO tasks (task_title, task_description, user_id, task_color) VALUES ('Coding','Javascript practice','laci@laci.com','white');
+INSERT INTO tasks (task_title, task_description, user_id, task_color) VALUES ('Game','Playing Candy Crush','laci@laci.com','white');
+INSERT INTO tasks (task_title, task_description, user_id, task_color) VALUES ('Work','Teaching Python','laci@laci.com','white');

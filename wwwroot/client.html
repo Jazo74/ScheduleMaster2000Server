@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<header>
+    <script src="day.js" defer></script>
+    <script src="schedule.js" defer></script>
+    <script src="task.js" defer></script>
+    <script src="user.js" defer></script>
+    <script src="init.js" defer></script>
+
+    <link type="text/css" rel="stylesheet" href="client.css">
+</header>
+<body>
+    <div class="header">
+        <div class="header-title">
+            <H1>Schedule Master 2000</H1>
+        </div>
+        <div class="header-schedules">
+            <p class="nav-item" id="link-schedules">Schedules</p>
+        </div>
+        <div class="header-tasks">
+            <p class="nav-item" id="link-tasks">Tasks</p>
+        </div>
+        <div class="header-logout">
+            <p class="nav-item" id="link-logout">Logout</p>
+        </div>
+        <div class="header-user">
+            <p class="nav-item" id="greeting"></p>
+        </div>
+    </div>
+    <div class="middle-panel">
+        <div class="schedules">
+            <div class="subpanel-left">
+                <p class="center-title">Existing schedules</p>
+                <hr>
+                <label class="subpanel-label">Schedule name</label>
+                <br />
+                <input class="input-text" id="schedule-name" type="text" list="schedule-list" name="scheduleName" required autocomplete="off" />
+                <datalist id="schedule-list"></datalist>
+                <br />
+                <br />
+                <button class="button" id="choose-schedule">Show schedule</button>
+            </div>
+            <div class="subpanel-center">
+                <p class="center-title" id="task-center">OR</p>
+            </div>
+            <div class="subpanel-right">
+                <p class="center-title">Create new schedule</p>
+                <hr>
+                <div class="extensible-form">
+                    <label class="subpanel-label">Schedule name</label>
+                    <br />
+                    <input class="input-text" id="create-schedulename" type="text" name="scheduleName" required autocomplete="off" />
+                    <br>
+                    <label class="subpanel-label">Number of days (1-7)</label>
+                    <br />
+                    <input class="input-text" id="days-number" type="text" name="daysNumber" required autocomplete="off" />
+                    <br />
+                    <br />
+                    <button class="next-button button" >Next</button>
+                    <div class="extended-part"></div>
+                </div>
+            </div>
+            <div class="closer">
+                <button class="closer-button">X</button>
+            </div>
+        </div>
+        <div class="tasks">
+            <div class="subpanel-left">
+                <p class="center-title">Update existing task</p>
+                <hr>
+                <label class="subpanel-label">Task name</label>
+                <br />
+                <input class="input-text" id="update-taskname"type="text" name="taskName" required autocomplete="off" />
+                <br />
+                <label class="subpanel-label">Task description</label>
+                <br />
+                <input class="input-text" id="update-taskdescription" type="text" name="taskDescription" required autocomplete="off" />
+                <br />
+                <label class="subpanel-label">Image URL</label>
+                <br />
+                <input class="input-text" id="update-taskimage" type="text" name="taskImage" required autocomplete="off" />
+                <br />
+                <br />
+                <button class="button" id="update-taskbutton">Update task</button>
+            </div>
+            <div class="subpanel-center">
+                <p class="center-title" id="task-center">OR</p>
+            </div>
+            <div class="subpanel-right">
+                <p class="center-title">Create new task</p>
+                <hr>
+                <label class="subpanel-label">Task title</label>
+                <br />
+                <input class="input-text" id="create-tasktitle" type="text" required autocomplete="off" />
+                <br />
+                <label class="subpanel-label">Task description</label>
+                <br />
+                <input class="input-text" id="create-taskdescription" type="text" required autocomplete="off" />
+                <br />
+                <label class="subpanel-label">Task color</label>
+                <br />
+                <input class="input-text" id="create-taskcolor" type="text" required autocomplete="off" />
+                <br />
+                <br />
+                <button class="button" id="create-taskbutton">Create task</button>
+            </div>
+            <div class="closer">
+                <button class="closer-button">X</button>
+            </div>
+        </div>
+        <div class="login">
+            <div class="subpanel-left">
+                <p class="center-title">Login</p>
+                <hr>
+                <label class="subpanel-label">Email</label>
+                <br />
+                <input class="input-text" id="user-id" type="text" name="email" required/>
+                <br />
+                <label class="subpanel-label">Password</label>
+                <br />
+                <input class="input-text" id="password" type="password" name="password" required autocomplete="off" />
+                <br />
+                <br />
+                <button class="button" id="login-button">Login</button>
+            </div>
+            <div class="subpanel-center">
+                <p class="center-title" id="Login-center">or</p>
+            </div>
+            <div class="subpanel-right">
+                <p class="center-title">Register</p>
+                <hr>
+                <label class="subpanel-label">Nick name</label>
+                <br />
+                <input class="input-text" id="reg-nickname" type="text" name="nickName" required autocomplete="off" />
+                <br />
+                <label class="subpanel-label">Email</label>
+                <br />
+                <input class="input-text" id="reg-userid" type="text" name="email" required autocomplete="off" />
+                <br />
+                <label class="subpanel-label">Password</label>
+                <br />
+                <input class="input-text" id="reg-password" type="password" name="password" required autocomplete="off" />
+                <br />
+                <br />
+                <button class="button" id="reg-button">Register</button>
+            </div>
+        </div>
+        <div class="slots">
+            <div class="subpanel-left">
+                <p class="center-title">Existing tasks</p>
+                <hr>
+                    <label class="subpanel-label">Task name</label>
+                    <br />
+                    <input class="input-text" type="text" name="taskName" required autocomplete="off" />
+                    <br />
+                    <label class="subpanel-label">Task description</label>
+                    <br />
+                    <input class="input-text" type="text" name="taskDescription" required autocomplete="off" />
+                    <br />
+                    <label class="subpanel-label">Image URL</label>
+                    <br />
+                    <input class="input-text" type="text" name="taskImage" required autocomplete="off" />
+                    <br />
+                    <br />
+                    <button class="button">Show task</button>
+            </div>
+            <div class="subpanel-center">
+                <p class="center-title" id="task-center">OR</p>
+            </div>
+            <div class="subpanel-right">
+                <p class="center-title">Create new task</p>
+                <hr>
+                <label class="subpanel-label">Task name</label>
+                <br />
+                <input class="input-text" type="text" name="taskName" required autocomplete="off" />
+                <br />
+                <label class="subpanel-label">Task description</label>
+                <br />
+                <input class="input-text" type="text" name="taskDescription" required autocomplete="off" />
+                <br />
+                <label class="subpanel-label">Image URL</label>
+                <br />
+                <input class="input-text" type="text" name="taskImage" required autocomplete="off" />
+                <br />
+                <br />
+                <button class="button" id="create-task-button">Create task</button>
+            </div>
+            <div class="closer">
+                <button class="closer-button">X</button>
+            </div>
+        </div>
+    </div>
+    <div class="schedule-name-panel">
+        <p class="schedule-name"></p>
+    </div>
+    <div class="main-panel">
+        <div class="hour"></div>
+        <div class="day1"></div>
+        <div class="day2"></div>
+        <div class="day3"></div>
+        <div class="day4"></div>
+        <div class="day5"></div>
+        <div class="day6"></div>
+        <div class="day7"></div>
+    </div>
+</body>
+</html>
