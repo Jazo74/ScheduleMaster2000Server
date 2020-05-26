@@ -361,3 +361,45 @@ p {
     font-weight: bold;
     color: midnightblue;
 }
+
+.colored-button {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    margin-top: 15px;
+    border: 1px solid lightgray;
+}
+
+#red {
+    background-color: darkred;
+}
+
+#purple {
+    background-color: mediumpurple;
+}
+
+#orange {
+    background-color: orange;
+}
+
+#yellow {
+    background-color: yellow;
+}
+
+#green {
+    background-color: forestgreen;
+}
+
+#blue {
+    background-color: dodgerblue;
+}
+
+#cyan {
+    background-color: cyan;
+}
+
+#brown {
+    background-color: saddlebrown;
+}
+
+

@@ -148,7 +148,13 @@ function chooseTask(slotId) {
     xhr.withCredentials = true; // pass along cookies
     const slotData = `taskId=${taskId}`;
     xhr.send(slotData);
-    
+    const slotText = document.querySelector(`#slot-p-${slotID}`);
+    console.log(`.slot-p-${slotID}`);
+    for (g = 0; g < currentTasks.length; g++) {
+        if (currentTasks[g].taskId == taskId) {
+            slotText.innerText = currentTasks[g].taskTitle; 
+        }
+    }
 }
 
 function onTaskSaved(slotId) {
