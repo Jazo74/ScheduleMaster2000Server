@@ -51,7 +51,7 @@ CREATE FUNCTION making_empty_task() RETURNS trigger AS
 $making_empty_task$
 	DECLARE
 	BEGIN
-		INSERT INTO tasks (task_title,task_description,user_id,task_color) VALUES ('empty hour', 'empty hour', NEW.user_id ,'white');
+		INSERT INTO tasks (task_title,task_description,user_id,task_color) VALUES ('-', 'empty hour', NEW.user_id ,'white');
 		RETURN NEW;
 	END;
 $making_empty_task$ LANGUAGE plpgsql;
@@ -75,7 +75,7 @@ $slots_building$
 		counter := 0;
 		SELECT schedule_id FROM days WHERE day_id = NEW.day_id LIMIT 1 INTO scheduleID;
 		SELECT user_id FROM schedules WHERE schedule_id = scheduleID LIMIT 1 INTO userID;
-		SELECT task_id FROM tasks WHERE user_id = userID AND task_title = 'empty hour' ORDER BY task_id LIMIT 1 INTO taskID;
+		SELECT task_id FROM tasks WHERE user_id = userID AND task_title = '-' ORDER BY task_id LIMIT 1 INTO taskID;
 		LOOP
 			EXIT WHEN counter = 24;
 			INSERT INTO slots (slot_number, day_id, task_id) VALUES (counter, NEW.day_id, taskID);

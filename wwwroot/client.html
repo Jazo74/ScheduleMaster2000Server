@@ -8,11 +8,13 @@
     <script src="init.js" defer></script>
 
     <link type="text/css" rel="stylesheet" href="client.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap" rel="stylesheet">
 </header>
 <body>
     <div class="header">
         <div class="header-title">
-            <H1>Schedule Master 2000</H1>
+            <p>Schedule Master 2000</p>
         </div>
         <div class="header-schedules">
             <p class="nav-item" id="link-schedules">Schedules</p>
@@ -37,7 +39,6 @@
                 <input class="input-text" id="schedule-name" type="text" list="schedule-list" name="scheduleName" required autocomplete="off" />
                 <datalist id="schedule-list"></datalist>
                 <br />
-                <br />
                 <button class="button" id="choose-schedule">Show schedule</button>
             </div>
             <div class="subpanel-center">
@@ -53,10 +54,18 @@
                     <br>
                     <label class="subpanel-label">Number of days (1-7)</label>
                     <br />
-                    <input class="input-text" id="days-number" type="text" name="daysNumber" required autocomplete="off" />
+                    <input class="input-text" id="days-number" type="text" list="daynumber-list" required autocomplete="off" />
+                    <datalist id="daynumber-list">
+                        <option value="1"></option>
+                        <option value="2"></option>
+                        <option value="3"></option>
+                        <option value="4"></option>
+                        <option value="5"></option>
+                        <option value="6"></option>
+                        <option value="7"></option>
+                    </datalist>
                     <br />
-                    <br />
-                    <button class="next-button button" >Next</button>
+                    <button class="next-button button">Next</button>
                     <div class="extended-part"></div>
                 </div>
             </div>
@@ -120,7 +129,6 @@
                 <br />
                 <input class="input-text" id="password" type="password" name="password" required autocomplete="off" />
                 <br />
-                <br />
                 <button class="button" id="login-button">Login</button>
             </div>
             <div class="subpanel-center">
@@ -141,7 +149,6 @@
                 <br />
                 <input class="input-text" id="reg-password" type="password" name="password" required autocomplete="off" />
                 <br />
-                <br />
                 <button class="button" id="reg-button">Register</button>
             </div>
         </div>
@@ -160,7 +167,6 @@
                     <label class="subpanel-label">Image URL</label>
                     <br />
                     <input class="input-text" type="text" name="taskImage" required autocomplete="off" />
-                    <br />
                     <br />
                     <button class="button">Show task</button>
             </div>
@@ -181,7 +187,6 @@
                 <label class="subpanel-label">Image URL</label>
                 <br />
                 <input class="input-text" type="text" name="taskImage" required autocomplete="off" />
-                <br />
                 <br />
                 <button class="button" id="create-task-button">Create task</button>
             </div>

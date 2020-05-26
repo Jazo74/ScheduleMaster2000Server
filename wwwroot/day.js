@@ -64,6 +64,7 @@ function showDays(day) {
 }
 
 function ShowSlots() {
+    console.log(currentSlotsJSON);
     let dayNumber;
     for (c = 0; c < currentSlotsJSON.length; c++) {
         for (b = 0; b < 24; b++) {
@@ -72,8 +73,12 @@ function ShowSlots() {
                 slotEl.className = 'hourSlot';
                 slotEl.id = `slot_${currentSlotsJSON[c][b].slotId}`;
                 const slotText = document.createElement("p");
-                slotText.id = 'slot-p';
-                slotText.innerText = currentSlotsJSON[c][b].taskId;
+                slotText.id = `slot-p-${currentSlotsJSON[c][b].slotId}`;
+                for (l = 0; l < currentTasks.length; l++) {
+                    if (currentTasks[l].taskId == currentSlotsJSON[c][b].taskId) {
+                        slotText.innerText = currentTasks[l].taskTitle;
+                    }
+                }
                 slotEl.appendChild(slotText);
                 const dayId = currentSlotsJSON[c][b].dayId;
 
@@ -85,7 +90,6 @@ function ShowSlots() {
                 const targetDayDivEL = document.querySelector(`.day${dayNumber}`);
                 slotText.addEventListener('click', slotClick);
                 targetDayDivEL.appendChild(slotEl);
-                
             }
         }
     }
@@ -99,7 +103,7 @@ function slotClick() {
     if (!extendedSlot) {
         const slotEl = document.querySelector(`#${this.id}`).parentNode;
         const parentId = slotEl.id;
-        slotEl.style.height = '130px';
+        slotEl.style.height = '160px';
         const taskListEl = document.createElement("input");
         taskListEl.className = "extended-slot";
         taskListEl.type = "text";
@@ -108,7 +112,7 @@ function slotClick() {
         dataTaskListEl.id = "task-list"
         for (m = 0; m < currentTasks.length; m++) {
             const newOptionEl = document.createElement('option');
-            newOptionEl.value = currentTasks[m].taskTitle;
+            newOptionEl.value = `${currentTasks[m].taskTitle} (${currentTasks[m].taskId})`;
             dataTaskListEl.appendChild(newOptionEl);
         }
         taskListEl.appendChild(dataTaskListEl);
@@ -131,5 +135,23 @@ function slotLeft(slotId) {
 }
 
 function chooseTask(slotId) {
-    slotLeft(slotId)
+    const choosedTask = document.querySelector('.extended-slot').value;
+    const start = choosedTask.indexOf("(")+1;
+    const end = choosedTask.indexOf(")");
+    const taskId = choosedTask.slice(start, end);
+    const xhr = new XMLHttpRequest();
+    const slotID = slotId.slice(slotId.indexOf("_") + 1,);
+    console.log(slotID);
+    xhr.addEventListener('load', onTaskSaved.bind(null, slotId));
+    xhr.open('PUT', serverURL + '/api/Slots/' + slotID);
+    xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+    xhr.withCredentials = true; // pass along cookies
+    const slotData = `taskId=${taskId}`;
+    xhr.send(slotData);
+    
+}
+
+function onTaskSaved(slotId) {
+    slotLeft(slotId);
+    console.log(this);
 }

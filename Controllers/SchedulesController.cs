@@ -79,6 +79,7 @@ namespace ScheduleMaster2000Server.Controllers
         public void Put(int scheduleId, [FromBody] string scheduleName)
         {
             ds.UpdateSchedule(scheduleId, scheduleName);
+
         }
 
         // DELETE: api/ApiWithActions/5

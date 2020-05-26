@@ -42,8 +42,8 @@ namespace ScheduleMaster2000Server.Controllers
         //}
 
         // PUT: api/Slots/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] int slotId, int taskId)
+        [HttpPut("{slotId}")]
+        public void Put(int slotId, [FromForm] int taskId)
         {
             ds.UpdateSlot(slotId, taskId);
         }

@@ -46,7 +46,7 @@ function setCurrentSchedId() {
     for (i = 0; i < schedules.length; i++) {
         if (schedules[i].scheduleName == currentScheduleNameEl.value) {
             currentScheduleId = schedules[i].scheduleId;
-            document.querySelector('.schedule-name').innerText = 'Schedule name: ' + schedules[i].scheduleName;
+            document.querySelector('.schedule-name').innerText = schedules[i].scheduleName;
             currentScheduleJSON = schedules[i];
         }
     }

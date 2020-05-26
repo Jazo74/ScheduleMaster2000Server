@@ -16,7 +16,7 @@ namespace ScheduleMaster2000Server.Services
             using (var conn = new NpgsqlConnection(Program.ConnectionString))
             {
                 conn.Open();
-                using (var cmd = new NpgsqlCommand("SELECT * FROM slots WHERE day_id = @dayId", conn))
+                using (var cmd = new NpgsqlCommand("SELECT * FROM slots WHERE day_id = @dayId ORDER BY slot_number", conn))
                 {
                     cmd.Parameters.AddWithValue("dayId", dayID);
                     var reader = cmd.ExecuteReader();
@@ -65,7 +65,7 @@ namespace ScheduleMaster2000Server.Services
             using (var conn = new NpgsqlConnection(Program.ConnectionString))
             {
                 conn.Open();
-                using (var cmd = new NpgsqlCommand("UPDATE slots SET task_id = @taskId" +
+                using (var cmd = new NpgsqlCommand("UPDATE slots SET task_id = @taskId " +
                     "WHERE slot_id = @slotId;", conn))
                 {
                     cmd.Parameters.AddWithValue("slotId", slotID);
