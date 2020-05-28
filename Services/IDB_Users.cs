@@ -15,5 +15,5 @@ namespace ScheduleMaster2000Server.Services
         void AddUser(string email, string nickname, string password);
 
         bool UserAlreadyExists(string email);
-    }
+   }
 }

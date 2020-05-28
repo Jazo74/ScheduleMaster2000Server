@@ -18,7 +18,7 @@ namespace ScheduleMaster2000Server.Services
         void InsertTask(string userID, string taskTitle, string taskDescription, string taskColor);
 
         // UPDATE
-        void UpdateTask(int taskId, string taskTitle, string taskDescription, string taskColor);
+        void UpdateTask(int taskId, string taskDescription, string taskColor);
 
         // DELETE
         void DeleteTask(int taskId);

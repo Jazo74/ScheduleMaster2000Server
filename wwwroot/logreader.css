@@ -1,0 +1,44 @@
+﻿html {
+    font-family: 'Raleway', sans-serif;
+}
+body {
+    margin: 0;
+    margin-left: 20px;
+    padding: 0;
+    display: grid;
+    grid-template-areas: "header" "middle" "schedule-name" "main";
+    grid-template-rows: 100px auto auto auto;
+    background-color: rgb(4, 28, 52);
+    color: ghostwhite;
+}
+
+.search-section {
+    display: flex;
+    flex-wrap:nowrap;
+}
+.button {
+    width: 200px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 15px;
+    color: whitesmoke;
+    margin-left: 20px;
+    background-color: rgb(5, 83, 163);
+}
+
+.input-text {
+    font-size: 20px;
+    width: 350px;
+    height: 30px;
+    margin-left: 20px;
+    background-color: whitesmoke;
+}
+
+table, th, td {
+    border: 1px solid #808080;
+    border-collapse: collapse;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 5px;
+}

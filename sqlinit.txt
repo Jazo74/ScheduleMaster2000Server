@@ -1,4 +1,5 @@
 ﻿/* DROPPING previous tables, functions, triggers */
+DROP TABLE IF EXISTS logs CASCADE;
 DROP TABLE IF EXISTS tasks CASCADE;
 DROP TABLE IF EXISTS slots CASCADE;
 DROP TABLE IF EXISTS days CASCADE;
@@ -12,6 +13,18 @@ DROP TRIGGER IF EXISTS deleting_days_slots ON schedules CASCADE;
 DROP FUNCTION IF EXISTS deleting_days_slots;
 
 /* CREATING new tables */
+
+CREATE TABLE logs(
+	log_id SERIAL Primary Key,
+	user_id VARCHAR(50),
+	log_type TEXT,
+	log_path TEXT,
+	log_param1 TEXT,
+	log_param2 TEXT,
+	log_param3 TEXT,
+	created_at TIMESTAMP DEFAULT NOW()
+);
+
 CREATE TABLE users(
 	user_id VARCHAR(50) Primary Key,
 	nickname VARCHAR(20),

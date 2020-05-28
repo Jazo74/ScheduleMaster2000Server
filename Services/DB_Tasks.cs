@@ -80,17 +80,16 @@ namespace ScheduleMaster2000Server.Services
             }
         }
 
-        public void UpdateTask(int taskId, string taskTitle, string taskDescription, string taskColor)
+        public void UpdateTask(int taskId, string taskDescription, string taskColor)
         {
             using (var conn = new NpgsqlConnection(Program.ConnectionString))
             {
                 conn.Open();
-                using (var cmd = new NpgsqlCommand("UPDATE tasks SET task_title = @taskTitle, " +
+                using (var cmd = new NpgsqlCommand("UPDATE tasks SET " +
                     "task_description = @taskDescription, task_color = @taskColor WHERE task_id = @taskId;", conn))
                 {
                     cmd.Parameters.AddWithValue("taskId", taskId);
-                    cmd.Parameters.AddWithValue("taskTitle", taskTitle);
-                    cmd.Parameters.AddWithValue("task_description", taskDescription);
+                    cmd.Parameters.AddWithValue("taskDescription", taskDescription);
                     cmd.Parameters.AddWithValue("taskColor", taskColor);
                     cmd.ExecuteNonQuery();
                 }

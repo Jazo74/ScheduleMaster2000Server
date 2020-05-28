@@ -2,8 +2,8 @@
 <html lang="en">
 <header>
     <script src="day.js" defer></script>
-    <script src="schedule.js" defer></script>
     <script src="task.js" defer></script>
+    <script src="schedule.js" defer></script>
     <script src="user.js" defer></script>
     <script src="init.js" defer></script>
 
@@ -79,11 +79,12 @@
                 <hr>
                 <label class="subpanel-label">Task name</label>
                 <br />
-                <input class="input-text" id="update-taskname" type="text" required autocomplete="off" />
+                <input class="input-text" id="update-tasktitle" list="task-list" type="text" required />
+                <datalist id="task-list"></datalist>
                 <br />
                 <label class="subpanel-label">Task description</label>
                 <br />
-                <input class="input-text" id="update-taskdescription" type="text" required autocomplete="off" />
+                <input class="input-text" id="update-taskdescription" type="text" required />
                 <br />
                 <label class="subpanel-label">Task Color</label>
                 <br />
@@ -107,11 +108,11 @@
                 <hr>
                 <label class="subpanel-label">Task title</label>
                 <br />
-                <input class="input-text" id="create-tasktitle" type="text" required autocomplete="off" />
+                <input class="input-text" id="create-tasktitle" type="text" required />
                 <br />
                 <label class="subpanel-label">Task description</label>
                 <br />
-                <input class="input-text" id="create-taskdescription" type="text" required autocomplete="off" />
+                <input class="input-text" id="create-taskdescription" type="text" required/>
                 <br />
                 <label class="subpanel-label">Task color</label>
                 <br />

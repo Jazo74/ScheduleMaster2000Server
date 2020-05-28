@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script src="logreader.js" defer></script>
+    <link type="text/css" rel="stylesheet" href="logreader.css">
+</head>
+<body>
+    <h1>Logreader</h1>
+    <div class="search-section">
+        <div>
+            <input class="input-text" id="user-id" type="text" placeholder="email address" autocomplete="off" />
+        </div>
+        <div>
+            <input class="input-text" id="method" type="text" placeholder="GET/POST/PUT/DELETE" autocomplete="off" />
+        </div>
+        <div>
+            <button class="button" id="load-filtered-log">Filtered log</button>
+        </div>
+        <div>
+            <button class="button" id="load-log">All log</button>
+        </div>
+    </div>
+    <br />
+    <div class="result-section">
+        <table>
+            <thead class="table-header">
+                <tr>
+                    <th>logId</th>
+                    <th>userId</th>
+                    <th>request path</th>
+                    <th>type></th>
+                    <th>param 1</th>
+                    <th>param 2</th>
+                    <th>param 3</th>
+                    <th>created</th>
+                </tr>
+            </thead>
+            <tbody class="table-body" id="table-body">
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

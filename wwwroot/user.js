@@ -12,13 +12,18 @@ logoutLinkEl.addEventListener('click', logoutRequest);
 
 // User login
 function loginRequest() {
-    const xhr = new XMLHttpRequest();
-    xhr.addEventListener('load', loginDone);
-    xhr.open('POST', serverURL + '/api/Users/Login');
-    xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
-    xhr.withCredentials = true; // pass along cookies
-    const loginData = `userId=${loginUserId.value}&password=${loginPassword.value}`;
-    xhr.send(loginData);
+    if (loginUserId.value != "" && loginPassword.value != "") {
+        const xhr = new XMLHttpRequest();
+        xhr.addEventListener('load', loginDone);
+        xhr.open('POST', serverURL + '/api/Users/Login');
+        xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+        xhr.withCredentials = true; // pass along cookies
+        const loginData = `userId=${loginUserId.value}&password=${loginPassword.value}`;
+        xhr.send(loginData);
+    } else {
+        alert("Please fill the form");
+    }
+    
 }
 
 function loginDone() {
@@ -27,9 +32,8 @@ function loginDone() {
         currentUserID = user.userId;
         currentUserNickname = user.nickName;
         loginPanelEl.style.display = 'none';
-        greetingEl.innerText = `Welcome ${currentUserNickname}!`;
-        openSchedPanel();
         mainPanelEl.style.display = 'grid';
+        greetingEl.innerText = `Welcome ${currentUserNickname}!`;
         regUserIdEL.value = '';
         regNickNameEL.value = '';
         regPasswordEL.value = '';
@@ -38,6 +42,7 @@ function loginDone() {
         tasksLinkEl.innerText = 'Tasks';
         schedLinkEl.innerText = 'Schedules';
         logoutLinkEl.innerText = 'Logout';
+        openSchedPanel();
     } else {
         alert('Wrong email or password');
     }
@@ -46,13 +51,18 @@ function loginDone() {
 
 // User registration
 function regRequest() {
-    const xhr = new XMLHttpRequest();
-    xhr.addEventListener('load', regDone);
-    xhr.open('POST', serverURL + '/api/Users/Register');
-    xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
-    xhr.withCredentials = true; // pass along cookies
-    const loginData = `userId=${regUserIdEL.value}&password=${regPasswordEL.value}&nickName=${regNickNameEL.value}`;
-    xhr.send(loginData);
+    if (regUserIdEL.value != "" && regPasswordEL.value != "" && regNickNameEL.value != "") {
+        const xhr = new XMLHttpRequest();
+        xhr.addEventListener('load', regDone);
+        xhr.open('POST', serverURL + '/api/Users/Register');
+        xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+        xhr.withCredentials = true; // pass along cookies
+        const loginData = `userId=${regUserIdEL.value}&password=${regPasswordEL.value}&nickName=${regNickNameEL.value}`;
+        xhr.send(loginData);
+    } else {
+        alert("Please fill the form");
+    }
+    
 }
 
 function regDone() {

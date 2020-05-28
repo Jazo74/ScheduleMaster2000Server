@@ -9,7 +9,6 @@
 // Requesting the days of the current schedule
 
 function getDaysByScheduleId() {
-    //console.log("getDaysByScheduleId started");
     const xhr = new XMLHttpRequest();
     xhr.addEventListener('load', onDaysReceived);
     xhr.open('GET', serverURL + '/api/Days/Schedule/' + currentScheduleId);
@@ -20,7 +19,6 @@ function getDaysByScheduleId() {
 // The data of the days has loaded, requesting the slots of the days
 
 function onDaysReceived() {
-    //console.log("onDaysReceived started");
     const text = this.responseText;
     const days = JSON.parse(text);
     currentDaysJSON = days;
@@ -44,8 +42,6 @@ function onSlotsReceived() {
 }
 
 function showSchedules() {
-    //console.log("schowSchedules started");
-    //console.log(currentDaysJSON);
     for (a = 0; a < currentDaysJSON.length; a++) {
         showDays(currentDaysJSON[a]);
     }
@@ -77,6 +73,15 @@ function ShowSlots() {
                 for (l = 0; l < currentTasks.length; l++) {
                     if (currentTasks[l].taskId == currentSlotsJSON[c][b].taskId) {
                         slotText.innerText = currentTasks[l].taskTitle;
+                        slotEl.style.backgroundColor = currentTasks[l].taskColor;
+                        if (slotEl.style.backgroundColor == "white" ||
+                            slotEl.style.backgroundColor == "yellow" ||
+                            slotEl.style.backgroundColor == "cyan" ||
+                            slotEl.style.backgroundColor == "dodgerblue") {
+                            slotEl.style.color = "#0012e8";
+                        } else {
+                            slotEl.style.color = "white";
+                        }
                     }
                 }
                 slotEl.appendChild(slotText);
@@ -99,28 +104,32 @@ function createDaysDone() {
 }
 
 function slotClick() {
+    console.log(currentTasks);
     const extendedSlot = document.querySelector(`.extended-slot`);
     if (!extendedSlot) {
+        //Identifying Parent
         const slotEl = document.querySelector(`#${this.id}`).parentNode;
-        const parentId = slotEl.id;
         slotEl.style.height = '160px';
-        const taskListEl = document.createElement("input");
-        taskListEl.className = "extended-slot";
-        taskListEl.type = "text";
-        taskListEl.setAttribute("list", "task-list");
+        //Creating Input element
+        const inputTaskEl = document.createElement("input");
+        inputTaskEl.className = "extended-slot";
+        inputTaskEl.type = "text";
+        inputTaskEl.setAttribute("list", "tasks-list");
+        // Creating Datalist element
         const dataTaskListEl = document.createElement("datalist");
-        dataTaskListEl.id = "task-list"
+        dataTaskListEl.id = "tasks-list"
+        slotEl.appendChild(inputTaskEl);
+        slotEl.appendChild(dataTaskListEl);
         for (m = 0; m < currentTasks.length; m++) {
             const newOptionEl = document.createElement('option');
             newOptionEl.value = `${currentTasks[m].taskTitle} (${currentTasks[m].taskId})`;
             dataTaskListEl.appendChild(newOptionEl);
         }
-        taskListEl.appendChild(dataTaskListEl);
+        //Creating Button
         const chooseTaskButtonEl = document.createElement('button');
         chooseTaskButtonEl.className = 'extended-button button';
         chooseTaskButtonEl.innerText = 'Choose task';
-        chooseTaskButtonEl.addEventListener('click', chooseTask.bind(null,parentId));
-        slotEl.appendChild(taskListEl);
+        chooseTaskButtonEl.addEventListener('click', chooseTask.bind(null, slotEl.id));
         slotEl.appendChild(chooseTaskButtonEl);
     }
 }
@@ -135,26 +144,38 @@ function slotLeft(slotId) {
 }
 
 function chooseTask(slotId) {
-    const choosedTask = document.querySelector('.extended-slot').value;
-    const start = choosedTask.indexOf("(")+1;
-    const end = choosedTask.indexOf(")");
-    const taskId = choosedTask.slice(start, end);
-    const xhr = new XMLHttpRequest();
-    const slotID = slotId.slice(slotId.indexOf("_") + 1,);
-    console.log(slotID);
-    xhr.addEventListener('load', onTaskSaved.bind(null, slotId));
-    xhr.open('PUT', serverURL + '/api/Slots/' + slotID);
-    xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
-    xhr.withCredentials = true; // pass along cookies
-    const slotData = `taskId=${taskId}`;
-    xhr.send(slotData);
-    const slotText = document.querySelector(`#slot-p-${slotID}`);
-    console.log(`.slot-p-${slotID}`);
-    for (g = 0; g < currentTasks.length; g++) {
-        if (currentTasks[g].taskId == taskId) {
-            slotText.innerText = currentTasks[g].taskTitle; 
+    if (document.querySelector('.extended-slot').value != "") {
+        const choosedTask = document.querySelector('.extended-slot').value;
+        const start = choosedTask.indexOf("(") + 1;
+        const end = choosedTask.indexOf(")");
+        const taskId = choosedTask.slice(start, end);
+        const xhr = new XMLHttpRequest();
+        const slotID = slotId.slice(slotId.indexOf("_") + 1);
+        xhr.addEventListener('load', onTaskSaved.bind(null, slotId));
+        xhr.open('PUT', serverURL + '/api/Slots/' + slotID);
+        xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+        xhr.withCredentials = true; // pass along cookies
+        const slotData = `taskId=${taskId}`;
+        xhr.send(slotData);
+        const slotText = document.querySelector(`#slot-p-${slotID}`);
+        for (g = 0; g < currentTasks.length; g++) {
+            if (currentTasks[g].taskId == taskId) {
+                slotText.innerText = currentTasks[g].taskTitle;
+                document.querySelector('.extended-slot').parentNode.style.backgroundColor = currentTasks[g].taskColor;
+                if (document.querySelector('.extended-slot').parentNode.style.backgroundColor == "white" ||
+                    document.querySelector('.extended-slot').parentNode.style.backgroundColor == "yellow" ||
+                    document.querySelector('.extended-slot').parentNode.style.backgroundColor == "cyan" ||
+                    document.querySelector('.extended-slot').parentNode.style.backgroundColor == "dodgerblue") {
+                    document.querySelector('.extended-slot').parentNode.style.color = "#0012e8";
+                } else {
+                    document.querySelector('.extended-slot').parentNode.style.color = "white";
+                }
+            }
         }
+    } else {
+        alert("Please choose a task");
     }
+    
 }
 
 function onTaskSaved(slotId) {

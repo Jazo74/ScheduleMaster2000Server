@@ -22,6 +22,7 @@ namespace ScheduleMaster2000Server.Controllers
     public class UsersController : Controller
     {
         IDB_Users ds = new DB_Users();
+        I_Logger dbLogger = new DBLogger();
 
         [HttpPost("Login", Name = "Login")]
         public async Task<ActionResult> Login([FromForm] string userId, [FromForm] string password)
@@ -59,14 +60,30 @@ namespace ScheduleMaster2000Server.Controllers
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity),
                     authProperties);
+
+                string type = this.Request.Method;
+                string userID = userId;
+                string source = this.Request.Path;
+                string param1 = "userId = " + userId;
+                string param2 = "password = " + password;
+                string param3 = "none";
+                dbLogger.Log(userID, type, source, param1, param2, param3);
+
                 user.Password = "";
                 return Json(user);
             } else
             {
+                string type = this.Request.Method;
+                string userID = userId;
+                string source = this.Request.Path;
+                string param1 = "userId = " + userId;
+                string param2 = "password = " + password;
+                string param3 = "none";
+                dbLogger.Log(userID, type, source, param1, param2, param3);
+
                 user.UserId = "fakeuser@fakeuser.com";
                 return Json(user);
             }
-            
         }
 
         // GET: api/Users/Logout
@@ -75,6 +92,14 @@ namespace ScheduleMaster2000Server.Controllers
         [HttpGet("Logout", Name = "Logout")]
         public async void Logout()
         {
+            string type = this.Request.Method;
+            string userID = HttpContext.User.FindFirstValue(ClaimTypes.Email);
+            string source = this.Request.Path;
+            string param1 = "none";
+            string param2 = "none";
+            string param3 = "none";
+            dbLogger.Log(userID, type, source, param1, param2, param3);
+
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             //return RedirectToAction("Index", "Home");
         }
@@ -82,6 +107,14 @@ namespace ScheduleMaster2000Server.Controllers
         [HttpPost("Register", Name = "Register")]
         public void Register([FromForm] string nickName, [FromForm] string userId, [FromForm] string password)
         {
+            string type = this.Request.Method;
+            string userID = HttpContext.User.FindFirstValue(ClaimTypes.Email);
+            string source = this.Request.Path;
+            string param1 = "nickName = " + nickName;
+            string param2 = "userId = " + userId;
+            string param3 = "password = " + password;
+            dbLogger.Log(userID, type, source, param1, param2, param3);
+
             if (!ds.UserAlreadyExists(userId))
             {
                 ds.AddUser(userId, nickName, password);

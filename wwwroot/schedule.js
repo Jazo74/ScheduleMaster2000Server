@@ -11,16 +11,19 @@ chooseScheduleButtonEl.addEventListener('click', setCurrentSchedId);
 
 function openSchedPanel() {
     resetMainPanel();
-    const xhr = new XMLHttpRequest();
-    xhr.addEventListener('load', onSchedulesReceived);
-    xhr.open('GET', serverURL + `/api/Schedules/Users/${currentUserID}`);
-    xhr.withCredentials = true; // pass along cookies
-    xhr.send();
     tasksPanelEl.style.display = 'none';
     loginPanelEl.style.display = 'none';
     slotsPanelEl.style.display = 'none';
     schedulesPanelEl.style.display = 'grid';
     middlePanelEl.style.height = 'auto';
+
+    getTasksByUser(currentUserID);
+    const xhr = new XMLHttpRequest();
+    xhr.addEventListener('load', onSchedulesReceived);
+    xhr.open('GET', serverURL + `/api/Schedules/Users/${currentUserID}`);
+    xhr.withCredentials = true; // pass along cookies
+    xhr.send();
+    
 }
 
 // The the data of the current user's existing schedules has loaded
@@ -37,74 +40,89 @@ function onSchedulesReceived() {
         newOptionEl.value = schedules[i].scheduleName;
         dataListEl.appendChild(newOptionEl);
     }
-    getTasksByUser(currentUserID);
+    //getTasksByUser(currentUserID);
 }
 
 // Setting the current schedule id
 
 function setCurrentSchedId() {
-    for (i = 0; i < schedules.length; i++) {
-        if (schedules[i].scheduleName == currentScheduleNameEl.value) {
-            currentScheduleId = schedules[i].scheduleId;
-            document.querySelector('.schedule-name').innerText = schedules[i].scheduleName;
-            currentScheduleJSON = schedules[i];
+    if (currentScheduleNameEl.value != "") {
+        for (i = 0; i < schedules.length; i++) {
+            if (schedules[i].scheduleName == currentScheduleNameEl.value) {
+                currentScheduleId = schedules[i].scheduleId;
+                document.querySelector('.schedule-name').innerText = schedules[i].scheduleName;
+                currentScheduleJSON = schedules[i];
+            }
         }
+        createShedulenameEL.value = '';
+        daysNumberEl.value = '';
+        currentScheduleNameEl.value = '';
+        while (extendedPartEl.firstChild) {
+            extendedPartEl.removeChild(extendedPartEl.firstChild);
+        }
+        hideMiddlePanel();
+        getDaysByScheduleId();
+    } else {
+        alert("Please fill the form");
     }
-    createShedulenameEL.value = '';
-    daysNumberEl.value = '';
-    currentScheduleNameEl.value = '';
-    while (extendedPartEl.firstChild) {
-        extendedPartEl.removeChild(extendedPartEl.firstChild);
-    }
-    hideMiddlePanel();
-    getDaysByScheduleId();
+    
 }
 
 function extendForm() {
-    extendedPartEl.appendChild(document.createElement('hr'));
-    nextButtonEl.style.display = 'none';
-    for (i = 1; i <= daysNumberEl.value; i++) {
-        const newLabelEl = document.createElement('label');
-        newLabelEl.className = 'subpanel-label create-days-labels';
-        newLabelEl.innerText = 'Name of the ' + i + '. day name';
+    if (createShedulenameEL.value != "" && daysNumberEl.value != "") {
+        extendedPartEl.appendChild(document.createElement('hr'));
+        nextButtonEl.style.display = 'none';
+        for (i = 1; i <= daysNumberEl.value; i++) {
+            const newLabelEl = document.createElement('label');
+            newLabelEl.className = 'subpanel-label create-days-labels';
+            newLabelEl.innerText = 'Name of the ' + i + '. day name';
 
-        const newInputEl = document.createElement('input');
-        newInputEl.className = 'input-text created-days';
-        newInputEl.id = i;
+            const newInputEl = document.createElement('input');
+            newInputEl.className = 'input-text created-days';
+            newInputEl.id = i;
 
-        const newAttrType = document.createAttribute('type');
-        newAttrType.value = 'text';
-        const newAttrName = document.createAttribute('name');
-        newAttrName.value = 'name' + i;
-        const newAttrReq = document.createAttribute('required');
-        newInputEl.setAttributeNode(newAttrType);
-        newInputEl.setAttributeNode(newAttrName);
-        newInputEl.setAttributeNode(newAttrReq);
+            const newAttrType = document.createAttribute('type');
+            newAttrType.value = 'text';
+            const newAttrName = document.createAttribute('name');
+            newAttrName.value = 'name' + i;
+            const newAttrReq = document.createAttribute('required');
+            newInputEl.setAttributeNode(newAttrType);
+            newInputEl.setAttributeNode(newAttrName);
+            newInputEl.setAttributeNode(newAttrReq);
 
-        extendedPartEl.appendChild(newLabelEl);
+            extendedPartEl.appendChild(newLabelEl);
+            extendedPartEl.appendChild(document.createElement('br'));
+            extendedPartEl.appendChild(newInputEl);
+            extendedPartEl.appendChild(document.createElement('br'));
+        }
+        const newSubmitButtonEl = document.createElement('button');
+        newSubmitButtonEl.className = 'task-button button';
+        newSubmitButtonEl.id = 'create-schedule-button';
+        newSubmitButtonEl.innerText = 'Create schedule';
         extendedPartEl.appendChild(document.createElement('br'));
-        extendedPartEl.appendChild(newInputEl);
-        extendedPartEl.appendChild(document.createElement('br'));
+        extendedPartEl.appendChild(newSubmitButtonEl);
+        document.querySelector('#create-schedule-button').addEventListener('click', createSchedule);
+    } else {
+        alert("Please fill the from.");
     }
-    const newSubmitButtonEl = document.createElement('button');
-    newSubmitButtonEl.className = 'task-button button';
-    newSubmitButtonEl.id = 'create-schedule-button';
-    newSubmitButtonEl.innerText = 'Create schedule';
-    extendedPartEl.appendChild(document.createElement('br'));
-    extendedPartEl.appendChild(newSubmitButtonEl);
-    document.querySelector('#create-schedule-button').addEventListener('click', createSchedule);
 }
 
 // Creating a schedule
 
 function createSchedule() {
-    const xhr = new XMLHttpRequest();
-    xhr.addEventListener('load', getLastScheduleIdByUser);
-    xhr.open('POST', serverURL + '/api/Schedules');
-    xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
-    xhr.withCredentials = true; // pass along cookies
-    const scheduleData = `userId=${currentUserID}&scheduleName=${createShedulenameEL.value}`;
-    xhr.send(scheduleData);
+
+    if (createShedulenameEL.value != "") {
+        const xhr = new XMLHttpRequest();
+        xhr.addEventListener('load', getLastScheduleIdByUser);
+        xhr.open('POST', serverURL + '/api/Schedules');
+        xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+        xhr.withCredentials = true; // pass along cookies
+        const scheduleData = `userId=${currentUserID}&scheduleName=${createShedulenameEL.value}`;
+        xhr.send(scheduleData);
+    } else {
+        alert("Please fill the form.");
+    }
+    
 }
 
 function getLastScheduleIdByUser() {

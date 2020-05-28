@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ namespace ScheduleMaster2000Server.Controllers
     public class SlotsController : ControllerBase
     {
         IDB_Slots ds = new DB_Slots();
+        I_Logger dbLogger = new DBLogger();
 
         //// GET: api/Slots
         //[HttpGet]
@@ -26,6 +28,14 @@ namespace ScheduleMaster2000Server.Controllers
         [HttpGet("Day/{dayId}", Name = "GetSlots")]
         public Slot[] Get(int dayId)
         {
+            string type = this.Request.Method;
+            string userID = HttpContext.User.FindFirstValue(ClaimTypes.Email);
+            string source = this.Request.Path;
+            string param1 = "none";
+            string param2 = "none";
+            string param3 = "none";
+            dbLogger.Log(userID, type, source, param1, param2, param3);
+
             List<Slot> slots = ds.GetAllSlotsByDayId(dayId);
             Slot[] slotArray = new Slot[slots.Count];
             for (int i = 0; i < slots.Count; i++)
@@ -45,6 +55,14 @@ namespace ScheduleMaster2000Server.Controllers
         [HttpPut("{slotId}")]
         public void Put(int slotId, [FromForm] int taskId)
         {
+            string type = this.Request.Method;
+            string userID = HttpContext.User.FindFirstValue(ClaimTypes.Email);
+            string source = this.Request.Path;
+            string param1 = "taskId = " + taskId;
+            string param2 = "none";
+            string param3 = "none";
+            dbLogger.Log(userID, type, source, param1, param2, param3);
+
             ds.UpdateSlot(slotId, taskId);
         }
 
