@@ -42,3 +42,7 @@ table, th, td {
     padding-right: 8px;
     padding-top: 5px;
 }
+
+.result-section {
+    display: none;
+}

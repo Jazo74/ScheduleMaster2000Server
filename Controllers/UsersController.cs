@@ -108,7 +108,7 @@ namespace ScheduleMaster2000Server.Controllers
         public void Register([FromForm] string nickName, [FromForm] string userId, [FromForm] string password)
         {
             string type = this.Request.Method;
-            string userID = HttpContext.User.FindFirstValue(ClaimTypes.Email);
+            string userID = userId;
             string source = this.Request.Path;
             string param1 = "nickName = " + nickName;
             string param2 = "userId = " + userId;

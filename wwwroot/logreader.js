@@ -3,6 +3,7 @@
 const userIdInputBoxEl = document.querySelector("#user-id");
 const methodInputBoxEl = document.querySelector("#method");
 const searchButtonEl = document.querySelector("#load-log");
+const resultSectionEl = document.querySelector(".result-section");
 const filteredSearchButtonEl = document.querySelector("#load-filtered-log");
 const tableBodyEl = document.querySelector("#table-body");
 
@@ -28,6 +29,7 @@ function allLogRequest() {
 }
 
 function gotLog() {
+    resultSectionEl.style.display = "block";
     while (tableBodyEl.firstChild) {
         tableBodyEl.removeChild(tableBodyEl.firstChild);
     }
@@ -43,14 +45,14 @@ function gotLog() {
         tdUserId.innerText = logList[i].userId;
         trEl.appendChild(tdUserId);
 
-        const tdPath = document.createElement("td");
-        tdPath.innerText = logList[i].logPath;
-        trEl.appendChild(tdPath);
-
         const tdType = document.createElement("td");
         tdType.innerText = logList[i].logType;
         trEl.appendChild(tdType);
 
+        const tdPath = document.createElement("td");
+        tdPath.innerText = logList[i].logPath;
+        trEl.appendChild(tdPath);
+        
         const tdP1 = document.createElement("td");
         tdP1.innerText = logList[i].logParam1;
         trEl.appendChild(tdP1);

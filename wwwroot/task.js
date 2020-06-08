@@ -82,7 +82,6 @@ function gotTasksByUser() {
     for (z = 0; z < coloredButtonEl.length; z++) {
         coloredButtonEl[z].style.border = "0px solid #1bff00";
     }
-    console.log(currentTasks);
 }
 
 function chooseColor() {

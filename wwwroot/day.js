@@ -60,7 +60,6 @@ function showDays(day) {
 }
 
 function ShowSlots() {
-    console.log(currentSlotsJSON);
     let dayNumber;
     for (c = 0; c < currentSlotsJSON.length; c++) {
         for (b = 0; b < 24; b++) {
@@ -70,9 +69,14 @@ function ShowSlots() {
                 slotEl.id = `slot_${currentSlotsJSON[c][b].slotId}`;
                 const slotText = document.createElement("p");
                 slotText.id = `slot-p-${currentSlotsJSON[c][b].slotId}`;
+                const slotDesc = document.createElement("p");
+                slotDesc.id = `slot-d-${currentSlotsJSON[c][b].slotId}`;
+                slotDesc.className = `p-small`;
                 for (l = 0; l < currentTasks.length; l++) {
                     if (currentTasks[l].taskId == currentSlotsJSON[c][b].taskId) {
                         slotText.innerText = currentTasks[l].taskTitle;
+                        slotDesc.innerText = currentTasks[l].taskDescription;
+                        slotDesc.style.display = "none";
                         slotEl.style.backgroundColor = currentTasks[l].taskColor;
                         if (slotEl.style.backgroundColor == "white" ||
                             slotEl.style.backgroundColor == "yellow" ||
@@ -85,6 +89,7 @@ function ShowSlots() {
                     }
                 }
                 slotEl.appendChild(slotText);
+                slotEl.appendChild(slotDesc);
                 const dayId = currentSlotsJSON[c][b].dayId;
 
                 for (d = 0; d < currentDaysJSON.length; d++) {
@@ -104,12 +109,12 @@ function createDaysDone() {
 }
 
 function slotClick() {
-    console.log(currentTasks);
     const extendedSlot = document.querySelector(`.extended-slot`);
     if (!extendedSlot) {
         //Identifying Parent
+        document.querySelector(`#${this.id.replace("p", "d")}`).style.display = "block"; 
         const slotEl = document.querySelector(`#${this.id}`).parentNode;
-        slotEl.style.height = '160px';
+        slotEl.style.height = 'auto';
         //Creating Input element
         const inputTaskEl = document.createElement("input");
         inputTaskEl.className = "extended-slot";
@@ -138,6 +143,8 @@ function slotLeft(slotId) {
     const extendedSlot = document.querySelector('.extended-slot');
     const extendedButton = document.querySelector('.extended-button');
     const slotEl = document.querySelector(`#${slotId}`);
+    const slotDesc = document.querySelector(`#slot-d-${slotId.slice(5,)}`);
+    slotDesc.style.display = "none";
     slotEl.style.height = '30px';
     extendedSlot.parentNode.removeChild(extendedSlot);
     extendedButton.parentNode.removeChild(extendedButton);
@@ -158,9 +165,11 @@ function chooseTask(slotId) {
         const slotData = `taskId=${taskId}`;
         xhr.send(slotData);
         const slotText = document.querySelector(`#slot-p-${slotID}`);
+        const slotDesc = document.querySelector(`#slot-d-${slotID}`);
         for (g = 0; g < currentTasks.length; g++) {
             if (currentTasks[g].taskId == taskId) {
                 slotText.innerText = currentTasks[g].taskTitle;
+                slotDesc.innerText = currentTasks[g].taskDescription;
                 document.querySelector('.extended-slot').parentNode.style.backgroundColor = currentTasks[g].taskColor;
                 if (document.querySelector('.extended-slot').parentNode.style.backgroundColor == "white" ||
                     document.querySelector('.extended-slot').parentNode.style.backgroundColor == "yellow" ||
@@ -180,5 +189,4 @@ function chooseTask(slotId) {
 
 function onTaskSaved(slotId) {
     slotLeft(slotId);
-    console.log(this);
 }
