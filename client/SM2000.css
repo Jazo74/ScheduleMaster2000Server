@@ -1,0 +1,287 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-areas: "header"
+                        "middle"
+                         "main";
+    grid-template-rows: 100px auto auto;
+    background-color: rgb(172, 58, 92);
+    
+}
+
+hr {
+    width: 80%;
+    border: 2px solid rgb(172, 58, 92);
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    grid-area: header;
+    display: grid;
+    grid-template-areas: "title schedules tasks login user";
+    grid-template-columns: 2FR 1FR 1FR 1FR 1FR;
+    background-color: #2b446f;
+    border-bottom: 4px solid rgb(172, 58, 92);
+}
+.header-title {
+    grid-area: title;
+    padding-left: 20px;
+    color: whitesmoke;
+}
+
+.header-schedules {
+    grid-area: schedules;
+    padding-top: 30px;
+    font-size: 32px;
+    color: whitesmoke;
+    text-align: center;
+}
+
+.header-tasks {
+    grid-area: tasks;
+    padding-top: 30px;
+    font-size: 32px;
+    color: whitesmoke;
+    text-align: center;
+}
+
+.header-login {
+    grid-area: login;
+    padding-top: 30px;
+    font-size: 32px;
+    color: whitesmoke;
+    text-align: center;
+}
+
+.header-user {
+    grid-area: user;
+    padding-top: 30px;
+    font-size: 24px;
+    color: whitesmoke;
+    text-align: center;
+}
+
+.middle-panel {
+    grid-area: middle;
+    padding-left: 20px;
+    background-color: #2b446f;
+    color: lightgray;
+    height: 0;
+    transition-property: height;
+    transition-duration: 500ms;
+}
+
+.main-panel {
+    grid-area: main;
+    display: grid;
+    grid-template-areas: "hour day1 day2 day3 day4 day5 day6 day7";
+    grid-template-columns: 85px 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    background-color: rgb(172, 58, 92);
+    grid-gap: 10px;
+    height: 100%;
+    padding: 10px;
+}
+
+.hour {
+    grid-area: hour;
+    background-color: rgb(172, 58, 92);
+    display: grid;
+    grid-template-rows: repeat(25, 45px);
+    grid-gap: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 10px;
+    
+}
+
+.day1 {
+    grid-area: day1;
+    background-color: lightgrey;
+    display: grid;
+    grid-template-rows: repeat(25, 45px);
+    grid-gap: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 10px;
+    
+}
+.day2 {
+    grid-area: day2;
+    background-color: lightgrey;
+    display: grid;
+    grid-template-rows: repeat(25, 45px);
+    grid-gap: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 10px;
+}
+.day3 {
+    grid-area: day3;
+    background-color: lightgrey;
+    display: grid;
+    grid-template-rows: repeat(25, 45px);
+    grid-gap: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 10px;
+}
+.day4 {
+    grid-area: day4;
+    background-color: lightgrey;
+    display: grid;
+    grid-template-rows: repeat(25, 45px);
+    grid-gap: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 10px;
+}
+.day5 {
+    grid-area: day5;
+    background-color: lightgrey;
+    display: grid;
+    grid-template-rows: repeat(25, 45px);
+    grid-gap: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 10px;
+}
+.day6 {
+    grid-area: day6;
+    background-color: lightgrey;
+    display: grid;
+    grid-template-rows: repeat(25, 45px);
+    grid-gap: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 10px;
+}
+.day7 {
+    grid-area: day7;
+    background-color: lightgrey;
+    display: grid;
+    grid-template-rows: repeat(25, 45px);
+    grid-gap: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 10px;
+}
+
+.slot {
+    padding: 6px;
+    margin: 0;
+    height: 40px;
+    border-radius: 10px;
+    background-color: aliceblue;
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.hourSlot {
+    padding: 6px;
+    margin: 0;
+    height: 30px;
+    border-radius: 10px;
+    border: 1px solid whitesmoke;
+    background-color: rgb(172, 58, 92);
+    color: whitesmoke;
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.login {
+    display: none;
+    padding: 20px;
+    grid-template-areas: "left center right closer";
+    grid-template-columns: auto 100px auto 50px;
+}
+
+.tasks {
+    display: none;
+    padding: 20px;
+    grid-template-areas: "left center right closer";
+    grid-template-columns: auto 100px auto 50px;
+}
+
+.schedules {
+    display: none;
+    padding: 20px;
+    grid-template-areas: "left center right closer";
+    grid-template-columns: auto 100px auto 50px;
+}
+
+.slots {
+    display: none;
+    padding: 20px;
+    grid-template-areas: "left center right closer";
+    grid-template-columns: auto 100px auto 50px;
+}
+.subpanel-left {
+    grid-area: left;
+    color: whitesmoke;
+    text-align: center;
+    font-size: 34px;
+}
+
+.subpanel-center {
+    grid-area: center;
+    color: whitesmoke;
+    font-size: 24px;
+    text-align: center;
+    font-size: 34px;
+}
+
+#subpanel-center {
+    font-size: 30px;
+    color: whitesmoke;
+}
+
+.subpanel-right {
+    grid-area: right;
+    color: whitesmoke;
+    text-align: center;
+    font-size: 34px;
+}
+
+.subpanel-label {
+    font-size: 26px;
+}
+
+.closer {
+    grid-area: closer;
+}
+.closer-button {
+    font-size: 30px;
+    font-weight: bold;
+    color: whitesmoke;
+    background-color: rgb(172, 58, 92);
+    border-radius: 10px;
+}
+
+.center-title {
+    font-size: 28px;
+    text-align: center;
+}
+
+.button {
+    width: 120px;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 15px;
+    color: whitesmoke;
+    background-color: rgb(172, 58, 92);
+}
+
+.input-text {
+    font-size: 20px;
+    width: 350px;
+    height: 30px;
+    background-color: whitesmoke;
+}

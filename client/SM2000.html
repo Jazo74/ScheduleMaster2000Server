@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+    <header>
+        <script src="SM2000.js" defer></script>
+        <link type="text/css" rel="stylesheet" href="SM2000.css">
+    </header>
+    <body>
+        <div class="header">
+            <div class="header-title">
+                <H1>Schedule Master 2000</H1>
+            </div>
+            <div class="header-schedules">
+                <p class="nav-item" id="link-schedules">Schedules</p>
+            </div>
+            <div class="header-tasks">
+                <p class="nav-item" id="link-tasks">Tasks</p>
+            </div>
+            <div class="header-login">
+                <p class="nav-item" id="link-login">Login</p>
+            </div>
+            <div class="header-user">
+                <p class="nav-item" id="greeting">User placeholder</p>
+            </div>
+        </div>
+        <div class="middle-panel">
+            <div class="schedules">
+                <div class="subpanel-left">
+                    <p class="center-title">Existing schedules</p>
+                    <hr>
+                    <form method="post" asp-controller="Tasks" asp-action="Register">
+                        <label class="subpanel-label">Schedule name</label>
+                        <br />
+                        <input class="input-text" type="text" list="schedule-list" name="scheduleName" required autocomplete="off"/>
+                        <datalist id="schedule-list"></datalist>
+                        <br />
+                        <br />
+                        <input class="button" type="submit" value="Show" />
+                    </form>
+                </div>
+                <div class="subpanel-center">
+                    <p class="center-title" id="task-center">OR</p>
+                </div>
+                <div class="subpanel-right">
+                    <p class="center-title">Create new schedule</p>
+                    <hr>
+                    <form class="extensible-form" method="post" asp-controller="Tasks" asp-action="Register">
+                        <label class="subpanel-label">Schedule name</label>
+                        <br />
+                        <input class="input-text" type="text" name="scheduleName" required autocomplete="off"/>
+                        <br>
+                        <label class="subpanel-label">Number of days (1-7)</label>
+                        <br />
+                        <input class="input-text" id="days-number" type="text" name="daysNumber" required autocomplete="off"/>
+                        <br />
+                        <br />
+                        <button class="next-button button">Next</button>
+                    </form>
+                </div>
+                <div class="closer">
+                    <button class="closer-button">X</button>
+                </div>
+            </div>
+            <div class="tasks">
+                <div class="subpanel-left">
+                    <p class="center-title">Existing tasks</p>
+                    <hr>
+                    <form method="post" asp-controller="Tasks" asp-action="Register">
+                        <label class="subpanel-label">Task name</label>
+                        <br />
+                        <input class="input-text" type="text" name="taskName" required autocomplete="off"/>
+                        <br />
+                        <label class="subpanel-label">Task description</label>
+                        <br />
+                        <input class="input-text" type="text" name="taskDescription" required autocomplete="off"/>
+                        <br />
+                        <label class="subpanel-label">Image URL</label>
+                        <br />
+                        <input class="input-text" type="text" name="taskImage" required autocomplete="off"/>
+                        <br />
+                        <br />
+                        <input class="button" type="submit" value="Show" />
+                    </form>
+                </div>
+                <div class="subpanel-center">
+                    <p class="center-title" id="task-center">OR</p>
+                </div>
+                <div class="subpanel-right">
+                    <p class="center-title">Create new task</p>
+                    <hr>
+                    <form method="post" asp-controller="Tasks" asp-action="Register">
+                        <label class="subpanel-label">Task name</label>
+                        <br />
+                        <input class="input-text" type="text" name="taskName" required autocomplete="off"/>
+                        <br />
+                        <label class="subpanel-label">Task description</label>
+                        <br />
+                        <input class="input-text" type="text" name="taskDescription" required autocomplete="off"/>
+                        <br />
+                        <label class="subpanel-label">Image URL</label>
+                        <br />
+                        <input class="input-text" type="text" name="taskImage" required autocomplete="off"/>
+                        <br />
+                        <br />
+                        <input class="button" type="submit" value="Create" />
+                    </form>
+                </div>
+                <div class="closer">
+                    <button class="closer-button">X</button>
+                </div>
+            </div>
+            <div class="login">
+                <div class="subpanel-left">
+                    <p class="center-title">Login</p>
+                    <hr>
+                    <form method="post" asp-controller="Account" asp-action="Login">
+                        <label class="subpanel-label">Email</label>
+                        <br />
+                        <input class="input-text" type="text" name="email" required autocomplete="off"/>
+                        <br />
+                        <label class="subpanel-label">Password</label>
+                            <br />
+                            <input class="input-text" type="password" name="password"  required autocomplete="off" />
+                            <br />
+                            <br />
+                            <input class="button" type="submit" value="Login" />
+                    </form>
+                </div>
+                <div class="subpanel-center">
+                    <p class="center-title" id="Login-center">OR</p>
+                </div>
+                <div class="subpanel-right">
+                    <p class="center-title">Register</p>
+                    <hr>
+                    <form method="post" asp-controller="Account" asp-action="Register">
+                        <label class="subpanel-label">Nick name</label>
+                        <br />
+                        <input class="input-text" type="text" name="nickName" required autocomplete="off"/>
+                        <br />
+                        <label class="subpanel-label">Email</label>
+                        <br />
+                        <input class="input-text" type="text" name="email" required autocomplete="off"/>
+                        <br />
+                        <label class="subpanel-label">Password</label>
+                        <br />
+                        <input class="input-text" type="password" name="password" required autocomplete="off"/>
+                        <br />
+                        <br />
+                        <input class="button" type="submit" value="Register" />
+                    </form>
+                </div>
+                <div class="closer">
+                    <button class="closer-button">X</button>
+                </div>
+            </div>
+            <div class="slots">
+                <div class="subpanel-left">
+                    <p class="center-title">Existing tasks</p>
+                    <hr>
+                    <form method="post" asp-controller="Tasks" asp-action="Register">
+                        <label class="subpanel-label">Task name</label>
+                        <br />
+                        <input class="input-text" type="text" name="taskName" required autocomplete="off"/>
+                        <br />
+                        <label class="subpanel-label">Task description</label>
+                        <br />
+                        <input class="input-text" type="text" name="taskDescription" required autocomplete="off"/>
+                        <br />
+                        <label class="subpanel-label">Image URL</label>
+                        <br />
+                        <input class="input-text" type="text" name="taskImage" required autocomplete="off"/>
+                        <br />
+                        <br />
+                        <input class="button" type="submit" value="Show" />
+                    </form>
+                </div>
+                <div class="subpanel-center">
+                    <p class="center-title" id="task-center">OR</p>
+                </div>
+                <div class="subpanel-right">
+                    <p class="center-title">Create new task</p>
+                    <hr>
+                    <form method="post" asp-controller="Tasks" asp-action="Register">
+                        <label class="subpanel-label">Task name</label>
+                        <br />
+                        <input class="input-text" type="text" name="taskName" required autocomplete="off"/>
+                        <br />
+                        <label class="subpanel-label">Task description</label>
+                        <br />
+                        <input class="input-text" type="text" name="taskDescription" required autocomplete="off"/>
+                        <br />
+                        <label class="subpanel-label">Image URL</label>
+                        <br />
+                        <input class="input-text" type="text" name="taskImage" required autocomplete="off"/>
+                        <br />
+                        <br />
+                        <input class="button" type="submit" value="Create" />
+                    </form>
+                </div>
+                <div class="closer">
+                    <button class="closer-button">X</button>
+                </div>
+            </div>
+        </div>
+        <div class="main-panel">
+            <div class="hour"></div>
+            <div class="day1"></div>
+            <div class="day2"></div>
+            <div class="day3"></div>
+            <div class="day4"></div>
+            <div class="day5"></div>
+            <div class="day6"></div>
+            <div class="day7"></div>
+        </div>
+    </body>
+</html>
